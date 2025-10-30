@@ -88,19 +88,19 @@ Filter data by adding querystring parameters to a `GET` request made to the endp
 
 To filter on an exact value:
 
-`?filter=[<field>]=<value>`
+`?filter[<field>]=<value>`
 
 The use a [search filter](https://docs.silverstripe.org/en/5/developer_guides/model/searchfilters/) such as `PartialMatchFilter` use:
 
-`?filter=[<field>:<SearchFilter>]=<value>`
+`?filter[<field>:<SearchFilter>]=<value>`
 
 When using a search filter in the querystring omit the 'Filter' suffix from its name. For example to use the `StartsWithFilter` to search for titles starting with "Hello" use `StartsWith` in the querystring:
 
-`?filter=[<title>:StartsWith]=Hello`
+`?filter[<title>:StartsWith]=Hello`
 
 To use a [search filter modifier](https://docs.silverstripe.org/en/5/developer_guides/model/searchfilters/#modifiers) such as "case" use:
 
-`?filter=[<field>:<SearchFilter>:<Modifier>]=<value>`
+`?filter[<field>:<SearchFilter>:<Modifier>]=<value>`
 
 For example to return all pages with the word "About" in them matched case-sensitive. Note that Silverstripe ORM uses the `nocase` search modifier by default if it is not specified.
 
