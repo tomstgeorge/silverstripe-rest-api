@@ -110,6 +110,10 @@ To use multiple filters, for example to filter on the `title` and `lastEdited` f
 
 `?filter[title:PartialMatch]=rockets&filter[lastEdited:GreaterThan]=2022-01-01`
 
+If you want to use multiple filters but using filterAny, for example to search for a Member using either their FirstName or Surname:
+
+`?filterAny[firstname:PartialMatch]=tom&filterAny[surname:PartialMatch]=tom`
+
 The following search filters are available:
 
 - `ExactMatch`
