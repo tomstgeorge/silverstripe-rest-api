@@ -409,6 +409,10 @@ abstract class RestApiEndpoint extends Controller
         /** @var DataList $objs */
         $dataClass = $this->endpointConfig(self::DATA_CLASS, false);
         $objs = $dataClass::get();
+        $filterAny = $this->filterAnyFromRequest();
+        if ($filterAny) {
+            $objs = $objs->filterAny($this->filterAnyFromRequest());
+        }
         $filter = $this->filterFromRequest();
         if ($filter) {
             $objs = $objs->filter($this->filterFromRequest());
@@ -432,16 +436,18 @@ abstract class RestApiEndpoint extends Controller
 
     /**
      * Allows filtering of apiViewMany() requests using standard ORM filtering
+     * $filterType can be 'filter' or 'filterAnyy
      * /api/<endpoint>?filter[<jsonKey>:<SearchFilter>]=<value>
+     * /api/<endpoint>?filterAny[<jsonKey>:<SearchFilter>]=<value>&filterAny[<otherJsonKey>:<SearchFilter>]=<value>
      * e.g. /api/teams?filter[name:StartsWith]=Ste
      * Is whitelisted against fields in $this->config()->get('end')
      */
-    private function filterFromRequest(): array
+    private function filterFromRequest($filterType = 'filter'): array
     {
         $request = $this->getRequest();
         $fields = $this->endpointConfig(self::FIELDS, false);
         $filter = [];
-        foreach ($request->getVar('filter') ?? [] as $jsonKey => $value) {
+        foreach ($request->getVar($filterType) ?? [] as $jsonKey => $value) {
             $searchFilter = '';
             $arr = explode(':', $jsonKey);
             $jsonKey = $arr[0];
